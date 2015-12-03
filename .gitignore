@@ -1,14 +1,4 @@
-# Maven
-target/
-
-# IDEA
-.idea/
-*.iml
-
-# Eclipse
-.classpath
-.project
-.settings/
-
-# Mac OS X
-.DS_Store
+.idea
+out
+GildedRose.iml
+pom.xml
