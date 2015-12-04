@@ -10,14 +10,12 @@ public class ConjuredItem extends Item implements ItemContract {
         qualityTick();
     }
 
-    @Override
     public int sellInTick() {
         sellIn--;
         return sellIn;
 
     }
 
-    @Override
     public int qualityTick() {
         if (quality > 0) {
             quality -= 2;

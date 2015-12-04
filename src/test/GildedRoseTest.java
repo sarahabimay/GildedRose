@@ -37,7 +37,6 @@ public class GildedRoseTest {
         assertEquals(qualityAfterUpdate, expectedQuality);
     }
 
-
     @Test
     public void backwardCompatibleForAgedItem() {
         GildedRose rose = new GildedRose();
@@ -192,9 +191,10 @@ public class GildedRoseTest {
         rose.addItem(item);
         rose.updateQualityOfItem(item);
         List<ItemContract> items = rose.getItems();
+        ItemContract lastItem = items.get(items.size() - 1);
 
-        assertEquals(-1, items.get(items.size() - 1).getSellIn());
-        assertEquals(0, items.get(items.size() - 1).getQuality());
+        assertEquals(-1, lastItem.getSellIn());
+        assertEquals(0, lastItem.getQuality());
     }
 
     private List<ItemContract> createItems() {

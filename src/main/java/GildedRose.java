@@ -12,8 +12,16 @@ public class GildedRose {
         this.items = new ArrayList<>();
     }
 
+    public void addItem(ItemContract item) {
+        items.add(item);
+    }
+
     public void addItems(List<ItemContract> items) {
         this.items = items;
+    }
+
+    public List<ItemContract> getItems() {
+        return items;
     }
 
     public void updateQualityOfAllItems() {
@@ -26,13 +34,4 @@ public class GildedRose {
         item.updateItem();
         return item;
     }
-
-    public List<ItemContract> getItems() {
-        return items;
-    }
-
-    public void addItem(ItemContract item) {
-        items.add(item);
-    }
-
 }
