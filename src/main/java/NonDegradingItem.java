@@ -1,7 +1,7 @@
 package main.java;
 
-public class StandardItem extends Item implements ItemContract{
-    public StandardItem(String name, int sellIn, int quality) {
+public class NonDegradingItem extends Item implements ItemContract{
+    public NonDegradingItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 
@@ -11,17 +11,10 @@ public class StandardItem extends Item implements ItemContract{
     }
 
     public int sellInTick() {
-        sellIn--;
         return sellIn;
     }
 
     public int qualityTick() {
-        if (quality > 0) {
-            quality--;
-        }
-        if (sellIn < 0) {
-            quality--;
-        }
         return quality;
     }
 }

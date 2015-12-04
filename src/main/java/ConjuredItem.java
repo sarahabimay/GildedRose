@@ -1,7 +1,7 @@
 package main.java;
 
-public class AgeImprovedItem extends Item implements ItemContract {
-    public AgeImprovedItem(String name, int sellIn, int quality) {
+public class ConjuredItem extends Item implements ItemContract {
+    public ConjuredItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 
@@ -10,17 +10,20 @@ public class AgeImprovedItem extends Item implements ItemContract {
         qualityTick();
     }
 
+    @Override
     public int sellInTick() {
         sellIn--;
         return sellIn;
+
     }
 
+    @Override
     public int qualityTick() {
-        if (quality < 50) {
-            quality++;
-            if (sellIn < 0) {
-                quality++;
-            }
+        if (quality > 0) {
+            quality -= 2;
+        }
+        if (sellIn < 0) {
+            quality -= 2;
         }
         return quality;
     }

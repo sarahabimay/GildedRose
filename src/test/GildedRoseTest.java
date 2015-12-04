@@ -1,42 +1,35 @@
 package test;
 
 import main.java.*;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 public class GildedRoseTest {
 
     @Test
-    public void testTheTruth() {
+    public void backwardCompatibleForStandardItemDexterityVest() {
         GildedRose rose = new GildedRose();
         List<ItemContract> items = rose.createItems();
 
-        String name = items.get(0).getName();
-        int sellIn = items.get(0).getSellIn();
-        int quality = items.get(0).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(0).getSellIn();
-        int qualityAfterUpdate = items.get(0).getQuality();
+        ItemContract item = items.get(0);
+        String name = item.getName();
+        int sellIn = item.getSellIn();
+        int quality = item.getQuality();
 
-        int expectedQuality = quality;
+        int expectedQuality = previousUpdateQuantityCode(item);
+        sellIn--;
         int expectedSellIn = sellIn;
-        if ((!"Aged Brie".equals(name)) && !"Backstage passes to a TAFKAL80ETC concert".equals(name)) {
-            if (quality > 0) {
-                if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-                    expectedQuality--;
-                }
-            }
-        }
-        if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-            expectedSellIn--;
-            assertEquals(sellInAfterUpdate, expectedSellIn);
-        }
+
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
+
+
         System.out.println(String.format("%s: Quality b4: %s, SellIn b4: %s, Quality after: %s, SellIn after: %s, " +
                         "Expected Q: %s, Expected S: %s",
                 name, quality, sellIn, qualityAfterUpdate, sellInAfterUpdate, expectedQuality, expectedSellIn));
@@ -44,181 +37,146 @@ public class GildedRoseTest {
     }
 
     @Test
-    public void testItem2() {
+    public void backwardCompatibleForAgedItem() {
         GildedRose rose = new GildedRose();
         List<ItemContract> items = rose.createItems();
 
-        String name = items.get(1).getName();
-        int sellIn = items.get(1).getSellIn();
-        int quality = items.get(1).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(1).getSellIn();
-        int qualityAfterUpdate = items.get(1).getQuality();
+        ItemContract item = items.get(1);
+        int sellIn = item.getSellIn();
 
-        int expectedQuality = quality;
-        int expectedSellIn = sellIn;
-        if (quality < 50) {
-            expectedQuality++;
-        }
-        if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-            expectedSellIn--;
-            assertEquals(sellInAfterUpdate, expectedSellIn);
-        }
-
-        System.out.println(String.format("%s: Quality b4: %s, SellIn b4: %s, Quality after: %s, SellIn after: %s, " +
-                        "Expected Q: %s, Expected S: %s",
-                name, quality, sellIn, qualityAfterUpdate, sellInAfterUpdate, expectedQuality, expectedSellIn));
-        assertEquals(qualityAfterUpdate, expectedQuality);
-        assertEquals(sellInAfterUpdate, expectedSellIn);
-    }
-
-    @Test
-    public void testItem3() {
-        GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
-
-        String name = items.get(2).getName();
-        int sellIn = items.get(2).getSellIn();
-        int quality = items.get(2).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(2).getSellIn();
-        int qualityAfterUpdate = items.get(2).getQuality();
-
-        int expectedQuality = quality;
-        int expectedSellIn = sellIn;
-        if ((!"Aged Brie".equals(name)) && !"Backstage passes to a TAFKAL80ETC concert".equals(name)) {
-            if (quality > 0) {
-                if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-                    expectedQuality--;
-                }
-            }
-        }
-        if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-            expectedSellIn--;
-            assertEquals(sellInAfterUpdate, expectedSellIn);
-        }
-
-        assertEquals(qualityAfterUpdate, expectedQuality);
-        assertEquals(sellInAfterUpdate, expectedSellIn);
-    }
-
-    @Test
-    public void testItem4() {
-        GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
-
-        String name = items.get(3).getName();
-        int sellIn = items.get(3).getSellIn();
-        int quality = items.get(3).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(3).getSellIn();
-        int qualityAfterUpdate = items.get(3).getQuality();
-
-        int expectedQuality = quality;
-        int expectedSellIn = sellIn-1;
-
-        assertEquals(qualityAfterUpdate, expectedQuality);
-        assertEquals(sellInAfterUpdate, expectedSellIn);
-    }
-
-    @Test
-    public void testItem5() {
-        GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
-
-        String name = items.get(4).getName();
-        int sellIn = items.get(4).getSellIn();
-        int quality = items.get(4).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(4).getSellIn();
-        int qualityAfterUpdate = items.get(4).getQuality();
-
-        int expectedQuality = quality;
+        int expectedQuality = previousUpdateQuantityCode(item);
+        sellIn--;
         int expectedSellIn = sellIn;
 
-        if (quality < 50) {
-            expectedQuality++;
-        }
-        if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-            expectedSellIn--;
-            assertEquals(sellInAfterUpdate, expectedSellIn);
-        }
-
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
 
         assertEquals(qualityAfterUpdate, expectedQuality);
         assertEquals(sellInAfterUpdate, expectedSellIn);
     }
 
     @Test
-    @Ignore
-    public void testItem6() {
+    public void backwardCompatableForStandardItem() {
         GildedRose rose = new GildedRose();
         List<ItemContract> items = rose.createItems();
 
-        String name = items.get(5).getName();
-        int sellIn = items.get(5).getSellIn();
-        int quality = items.get(5).getQuality();
-        rose.updateQuality();
-        items = rose.getItems();
-        int sellInAfterUpdate = items.get(5).getSellIn();
-        int qualityAfterUpdate = items.get(5).getQuality();
+        ItemContract item = items.get(2);
+        int sellIn = item.getSellIn();
 
-        int expectedQuality = quality;
+        int expectedQuality = previousUpdateQuantityCode(item);
+        sellIn--;
         int expectedSellIn = sellIn;
-        if ((!"Aged Brie".equals(name)) && !"Backstage passes to a TAFKAL80ETC concert".equals(name)) {
-            if (quality > 0) {
-                if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-                    expectedQuality--;
-                }
-            }
-        }
 
-        if (!"Sulfuras, Hand of Ragnaros".equals(name)) {
-            expectedSellIn--;
-            assertEquals(sellInAfterUpdate, expectedSellIn);
-        }
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
 
         assertEquals(qualityAfterUpdate, expectedQuality);
         assertEquals(sellInAfterUpdate, expectedSellIn);
     }
 
     @Test
-    public void testItem7() {
+    public void backwardCompatableForNonDeteriatingItem() {
         GildedRose rose = new GildedRose();
-        ItemContract backstage = new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 5, 20);
-        assertEquals(23, rose.updateQualityOfItem(backstage).getQuality());
+        List<ItemContract> items = rose.createItems();
+
+        ItemContract item = items.get(3);
+        int sellIn = item.getSellIn();
+
+        int expectedQuality = previousUpdateQuantityCode(item);
+        int expectedSellIn = sellIn;
+
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
+
+        assertEquals(qualityAfterUpdate, expectedQuality);
+        assertEquals(sellInAfterUpdate, expectedSellIn);
     }
 
     @Test
-    public void testItem8() {
+    public void backwardCompatableForBackstagePass() {
         GildedRose rose = new GildedRose();
-        ItemContract backstage = new FixedItem("Sulfuras, Hand of Ragnaros", 0, 80);
-        assertEquals(80, rose.updateQualityOfItem(backstage).getQuality());
+        List<ItemContract> items = rose.createItems();
+        ItemContract item = items.get(4);
+
+        int sellIn = item.getSellIn();
+
+        int expectedQuality = previousUpdateQuantityCode(item);
+        sellIn--;
+        int expectedSellIn = sellIn;
+
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
+
+
+        assertEquals(qualityAfterUpdate, expectedQuality);
+        assertEquals(sellInAfterUpdate, expectedSellIn);
     }
 
     @Test
-    public void testItem9() {
+    public void notBackwardCompatableForConjuredItem() {
+        GildedRose rose = new GildedRose();
+        List<ItemContract> items = rose.createItems();
+
+        ItemContract item = items.get(5);
+        int sellIn = item.getSellIn();
+
+        int expectedQuality = previousUpdateQuantityCode(item);
+        sellIn--;
+        int expectedSellIn = sellIn;
+
+        rose.updateQualityOfAllItems();
+        int sellInAfterUpdate = item.getSellIn();
+        int qualityAfterUpdate = item.getQuality();
+
+        assertNotEquals(qualityAfterUpdate, expectedQuality);
+        assertEquals(sellInAfterUpdate, expectedSellIn);
+    }
+
+
+    @Test
+    public void standardItem() {
         GildedRose rose = new GildedRose();
         ItemContract backstage = new StandardItem("Elixir of the Mongoose", 0, 5);
         assertEquals(3, rose.updateQualityOfItem(backstage).getQuality());
     }
 
     @Test
-    public void testItem10() {
+    public void backStagePassItemImprovesInQuality() {
+        GildedRose rose = new GildedRose();
+        ItemContract backstage = new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 5, 20);
+        assertEquals(23, rose.updateQualityOfItem(backstage).getQuality());
+    }
+
+    @Test
+    public void backStagePassItemExpired() {
         GildedRose rose = new GildedRose();
         ItemContract backstage = new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 0, 20);
         assertEquals(0, rose.updateQualityOfItem(backstage).getQuality());
     }
 
     @Test
-    public void testItem11() {
+    public void nonDegradingItem() {
+        GildedRose rose = new GildedRose();
+        ItemContract backstage = new NonDegradingItem("Sulfuras, Hand of Ragnaros", 0, 80);
+        assertEquals(80, rose.updateQualityOfItem(backstage).getQuality());
+    }
+
+    @Test
+    public void ageImprovedItem() {
         GildedRose rose = new GildedRose();
         ItemContract backstage = new AgeImprovedItem("Aged Brie", 0, 20);
         assertEquals(22, rose.updateQualityOfItem(backstage).getQuality());
+    }
+
+    @Test
+    public void conjuredItem() {
+        GildedRose rose = new GildedRose();
+        ItemContract backstage = new ConjuredItem("Conjured Mana Cake", 3, 6);
+        assertEquals(4, rose.updateQualityOfItem(backstage).getQuality());
     }
 
     @Test
@@ -230,6 +188,65 @@ public class GildedRoseTest {
         List<ItemContract> items = rose.getItems();
 
         assertEquals(-1, items.get(items.size() - 1).getSellIn());
-        assertEquals(0, items.get(items.size()-1).getQuality());
+        assertEquals(0, items.get(items.size() - 1).getQuality());
+    }
+
+    public int previousUpdateQuantityCode(ItemContract item) {
+        int newQuality = item.getQuality();
+        if ((!"Aged Brie".equals(item.getName())) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
+            if (item.getQuality() > 0) {
+                if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
+                    newQuality--;
+//                    item.setQuality(item.getQuality() - 1);
+                }
+            }
+        } else {
+            if (item.getQuality() < 50) {
+                newQuality++;
+//                item.setQuality(item.getQuality() + 1);
+
+                if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
+                    if (item.getSellIn() < 11) {
+                        if (item.getQuality() < 50) {
+                            item.qualityTick();
+//                            item.setQuality(item.getQuality() + 1);
+                        }
+                    }
+
+                    if (item.getSellIn() < 6) {
+                        if (item.getQuality() < 50) {
+                            newQuality++;
+//                            item.setQuality(item.getQuality() + 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
+//            item.setSellIn(item.getSellIn() - 1);
+        }
+
+        if (item.getSellIn() < 0) {
+            if (!"Aged Brie".equals(item.getName())) {
+                if (!"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
+                    if (item.getQuality() > 0) {
+                        if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
+                            newQuality--;
+//                            item.setQuality(item.getQuality() - 1);
+                        }
+                    }
+                } else {
+                    newQuality -= newQuality;
+//                    item.setQuality(item.getQuality() - item.getQuality());
+                }
+            } else {
+                if (item.getQuality() < 50) {
+                    newQuality++;
+//                    item.setQuality(item.getQuality() + 1);
+                }
+            }
+        }
+        return newQuality;
     }
 }

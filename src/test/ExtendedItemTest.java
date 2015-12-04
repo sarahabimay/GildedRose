@@ -1,9 +1,6 @@
 package test;
 
-import main.java.AgeImprovedItem;
-import main.java.BackStagePassItem;
-import main.java.FixedItem;
-import main.java.StandardItem;
+import main.java.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -32,8 +29,8 @@ public class ExtendedItemTest {
 
     @Test
     public void itemWithFixedQualityAfterSellInReduced() {
-        FixedItem fixed = new FixedItem("Sulfuras, Hand of Ragnaros", 0, 80);
-        assertEquals(-1, fixed.sellInTick());
+        NonDegradingItem fixed = new NonDegradingItem("Sulfuras, Hand of Ragnaros", 0, 80);
+        assertEquals(0, fixed.sellInTick());
         assertEquals(80, fixed.qualityTick());
     }
 
@@ -91,5 +88,18 @@ public class ExtendedItemTest {
         AgeImprovedItem aged = new AgeImprovedItem("Aged Brie", 0, 50);
         assertEquals(-1, aged.sellInTick());
         assertEquals(50, aged.qualityTick());
+    }
+
+    @Test
+    public void conjuredItemsDegradeTwiceAsFast() {
+        ConjuredItem conjuredItems = new ConjuredItem("Conjured Mana Cake", 3, 6);
+        assertEquals(2, conjuredItems.sellInTick());
+        assertEquals(4, conjuredItems.qualityTick());
+    }
+    @Test
+    public void conjuredItemsDegradeTwiceAsFastExpired() {
+        ConjuredItem conjuredItems = new ConjuredItem("Conjured Mana Cake", 0, 6);
+        assertEquals(-1, conjuredItems.sellInTick());
+        assertEquals(2, conjuredItems.qualityTick());
     }
 }

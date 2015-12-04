@@ -11,7 +11,7 @@ public class GildedRose {
     public static void main(String[] args) {
         GildedRose rose = new GildedRose();
         rose.createItems();
-        rose.updateQuality();
+        rose.updateQualityOfAllItems();
     }
 
     public GildedRose() {
@@ -23,22 +23,21 @@ public class GildedRose {
         itemList.add(new StandardItem("+5 Dexterity Vest", 10, 20));
         itemList.add(new AgeImprovedItem("Aged Brie", 2, 0));
         itemList.add(new StandardItem("Elixir of the Mongoose", 5, 7));
-        itemList.add(new FixedItem("Sulfuras, Hand of Ragnaros", 0, 80));
+        itemList.add(new NonDegradingItem("Sulfuras, Hand of Ragnaros", 0, 80));
         itemList.add(new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 15, 20));
-//        itemList.add(new Item("Conjured Mana Cake", 3, 6));
+        itemList.add(new ConjuredItem("Conjured Mana Cake", 3, 6));
         items = itemList;
         return items;
     }
 
-    public void updateQuality() {
+    public void updateQualityOfAllItems() {
         for (ItemContract item : items) {
             updateQualityOfItem(item);
         }
     }
 
     public ItemContract updateQualityOfItem(ItemContract item) {
-        item.sellInTick();
-        item.qualityTick();
+        item.updateItem();
         return item;
     }
 

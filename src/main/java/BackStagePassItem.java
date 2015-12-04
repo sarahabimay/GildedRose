@@ -5,6 +5,11 @@ public class BackStagePassItem extends Item implements ItemContract{
         super(name, sellIn, quality);
     }
 
+    public void updateItem() {
+        sellInTick();
+        qualityTick();
+    }
+
     public int sellInTick() {
         sellIn--;
         return sellIn;
