@@ -3,6 +3,7 @@ package test;
 import main.java.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,8 @@ public class GildedRoseTest {
     @Test
     public void backwardCompatibleForStandardItemDexterityVest() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
         ItemContract item = items.get(0);
         String name = item.getName();
@@ -29,17 +31,18 @@ public class GildedRoseTest {
         int sellInAfterUpdate = item.getSellIn();
         int qualityAfterUpdate = item.getQuality();
 
-
         System.out.println(String.format("%s: Quality b4: %s, SellIn b4: %s, Quality after: %s, SellIn after: %s, " +
                         "Expected Q: %s, Expected S: %s",
                 name, quality, sellIn, qualityAfterUpdate, sellInAfterUpdate, expectedQuality, expectedSellIn));
         assertEquals(qualityAfterUpdate, expectedQuality);
     }
 
+
     @Test
     public void backwardCompatibleForAgedItem() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
         ItemContract item = items.get(1);
         int sellIn = item.getSellIn();
@@ -59,7 +62,8 @@ public class GildedRoseTest {
     @Test
     public void backwardCompatableForStandardItem() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
         ItemContract item = items.get(2);
         int sellIn = item.getSellIn();
@@ -79,7 +83,8 @@ public class GildedRoseTest {
     @Test
     public void backwardCompatableForNonDeteriatingItem() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
         ItemContract item = items.get(3);
         int sellIn = item.getSellIn();
@@ -98,9 +103,10 @@ public class GildedRoseTest {
     @Test
     public void backwardCompatableForBackstagePass() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
-        ItemContract item = items.get(4);
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
+        ItemContract item = items.get(4);
         int sellIn = item.getSellIn();
 
         int expectedQuality = previousUpdateQuantityCode(item);
@@ -119,7 +125,8 @@ public class GildedRoseTest {
     @Test
     public void notBackwardCompatableForConjuredItem() {
         GildedRose rose = new GildedRose();
-        List<ItemContract> items = rose.createItems();
+        List<ItemContract> items = createItems();
+        rose.addItems(items);
 
         ItemContract item = items.get(5);
         int sellIn = item.getSellIn();
@@ -135,7 +142,6 @@ public class GildedRoseTest {
         assertNotEquals(qualityAfterUpdate, expectedQuality);
         assertEquals(sellInAfterUpdate, expectedSellIn);
     }
-
 
     @Test
     public void standardItem() {
@@ -191,32 +197,39 @@ public class GildedRoseTest {
         assertEquals(0, items.get(items.size() - 1).getQuality());
     }
 
+    private List<ItemContract> createItems() {
+        List<ItemContract> itemList = new ArrayList<>();
+        itemList.add(new StandardItem("+5 Dexterity Vest", 10, 20));
+        itemList.add(new AgeImprovedItem("Aged Brie", 2, 0));
+        itemList.add(new StandardItem("Elixir of the Mongoose", 5, 7));
+        itemList.add(new NonDegradingItem("Sulfuras, Hand of Ragnaros", 0, 80));
+        itemList.add(new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 15, 20));
+        itemList.add(new ConjuredItem("Conjured Mana Cake", 3, 6));
+        return itemList;
+    }
+
     public int previousUpdateQuantityCode(ItemContract item) {
         int newQuality = item.getQuality();
         if ((!"Aged Brie".equals(item.getName())) && !"Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
             if (item.getQuality() > 0) {
                 if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
                     newQuality--;
-//                    item.setQuality(item.getQuality() - 1);
                 }
             }
         } else {
             if (item.getQuality() < 50) {
                 newQuality++;
-//                item.setQuality(item.getQuality() + 1);
 
                 if ("Backstage passes to a TAFKAL80ETC concert".equals(item.getName())) {
                     if (item.getSellIn() < 11) {
                         if (item.getQuality() < 50) {
                             item.qualityTick();
-//                            item.setQuality(item.getQuality() + 1);
                         }
                     }
 
                     if (item.getSellIn() < 6) {
                         if (item.getQuality() < 50) {
                             newQuality++;
-//                            item.setQuality(item.getQuality() + 1);
                         }
                     }
                 }
@@ -224,7 +237,6 @@ public class GildedRoseTest {
         }
 
         if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
-//            item.setSellIn(item.getSellIn() - 1);
         }
 
         if (item.getSellIn() < 0) {
@@ -233,17 +245,14 @@ public class GildedRoseTest {
                     if (item.getQuality() > 0) {
                         if (!"Sulfuras, Hand of Ragnaros".equals(item.getName())) {
                             newQuality--;
-//                            item.setQuality(item.getQuality() - 1);
                         }
                     }
                 } else {
                     newQuality -= newQuality;
-//                    item.setQuality(item.getQuality() - item.getQuality());
                 }
             } else {
                 if (item.getQuality() < 50) {
                     newQuality++;
-//                    item.setQuality(item.getQuality() + 1);
                 }
             }
         }

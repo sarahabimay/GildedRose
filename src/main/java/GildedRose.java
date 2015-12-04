@@ -8,26 +8,12 @@ public class GildedRose {
 
     private List<ItemContract> items = null;
 
-    public static void main(String[] args) {
-        GildedRose rose = new GildedRose();
-        rose.createItems();
-        rose.updateQualityOfAllItems();
-    }
-
     public GildedRose() {
         this.items = new ArrayList<>();
     }
 
-    public List<ItemContract> createItems() {
-        List<ItemContract> itemList = new ArrayList<>();
-        itemList.add(new StandardItem("+5 Dexterity Vest", 10, 20));
-        itemList.add(new AgeImprovedItem("Aged Brie", 2, 0));
-        itemList.add(new StandardItem("Elixir of the Mongoose", 5, 7));
-        itemList.add(new NonDegradingItem("Sulfuras, Hand of Ragnaros", 0, 80));
-        itemList.add(new BackStagePassItem("Backstage passes to a TAFKAL80ETC concert", 15, 20));
-        itemList.add(new ConjuredItem("Conjured Mana Cake", 3, 6));
-        items = itemList;
-        return items;
+    public void addItems(List<ItemContract> items) {
+        this.items = items;
     }
 
     public void updateQualityOfAllItems() {
@@ -48,4 +34,5 @@ public class GildedRose {
     public void addItem(ItemContract item) {
         items.add(item);
     }
+
 }
