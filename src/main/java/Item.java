@@ -11,7 +11,6 @@ public class Item {
         this.setQuality(quality);
     }
 
-    /* Generated getter and setter code */
     public String getName() {
         return name;
     }

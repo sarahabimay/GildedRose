@@ -2,7 +2,6 @@ package test;
 
 import main.java.GildedRose;
 import main.java.Item;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,6 +22,7 @@ public class GildedRoseTest {
         rose.updateQuality();
         assertEquals(21, rose.getItems().get(0).getQuality());
     }
+
     @Test
     public void ageImprovedItemIncreaseByTwo() {
         GildedRose rose = new GildedRose();
@@ -90,6 +90,15 @@ public class GildedRoseTest {
     @Test
     public void standardItem() {
         GildedRose rose = new GildedRose();
+        Item item = new Item("Elixir of the Mongoose", 5, 5);
+        rose.addItem(item);
+        rose.updateQuality();
+        assertEquals(4, rose.getItems().get(0).getQuality());
+    }
+
+    @Test
+    public void standardItemExpired() {
+        GildedRose rose = new GildedRose();
         Item item = new Item("Elixir of the Mongoose", 0, 5);
         rose.addItem(item);
         rose.updateQuality();
@@ -97,7 +106,6 @@ public class GildedRoseTest {
     }
 
     @Test
-    @Ignore
     public void conjuredItem() {
         GildedRose rose = new GildedRose();
         Item conjured = new Item("Conjured Mana Cake", 3, 6);
